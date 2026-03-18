@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interview Prep Portal</title>
+    <title>Full-Stack Interview Prep Portal</title>
     <style>
         :root {
             --primary: #2563eb;
@@ -152,7 +152,7 @@
 
         textarea, pre {
             width: 100%;
-            height: 250px;
+            height: 300px;
             padding: 1rem;
             border-radius: 6px;
             font-family: 'Courier New', Courier, monospace;
@@ -202,7 +202,7 @@
     <div class="container">
         <header>
             <h1>Interview Prep Portal</h1>
-            <p>Test your knowledge with MCQs and practice your coding logic.</p>
+            <p>Master your logic, syntax, and conceptual knowledge.</p>
         </header>
 
         <section id="mcq-section">
@@ -244,6 +244,35 @@
                     "Rejects immediately if the array is empty."
                 ],
                 answer: 1
+            },
+            {
+                id: 4,
+                question: "Which Regex pattern correctly checks if a string contains at least one uppercase letter?",
+                options: ["/[A-Z]/", "/[a-z]/", "/[0-9]/", "/[A-z]/"],
+                answer: 0
+            },
+            {
+                id: 5,
+                question: "Which built-in object lets you store unique values of any type?",
+                options: ["Array", "Map", "Set", "Object"],
+                answer: 2
+            },
+            {
+                id: 6,
+                question: "How do you correctly store a JavaScript object in `localStorage`?",
+                options: [
+                    "localStorage.setItem('key', object)",
+                    "localStorage.push('key', object)",
+                    "localStorage.setItem('key', JSON.stringify(object))",
+                    "localStorage.setItem('key', object.toString())"
+                ],
+                answer: 2
+            },
+            {
+                id: 7,
+                question: "In JavaScript, all objects are truthy. What does `if ({})` evaluate to?",
+                options: ["false", "true", "undefined", "SyntaxError"],
+                answer: 1
             }
         ];
 
@@ -252,8 +281,8 @@
             {
                 id: 1,
                 title: "1. The Magical Sorting Hat",
-                description: "Implement a JavaScript function that takes an array of student names and assigns them to one of the four houses (Gryffindor < 6, Hufflepuff < 8, Ravenclaw < 12, Slytherin >= 12) based on the length of their names.",
-                solution: "function SortSstudent(e) {\n    const house = [\"Gryffindor\", \"Hufflepuff\", \"Ravenclaw\", \"Slytherin\"];\n\n    for (let i = 0; i < e.length; i++) {\n        if (e[i].length < 6) {\n            console.log(e[i] + \"-\" + house[0]);\n        } else if (e[i].length < 8) {\n            console.log(e[i] + \"-\" + house[1]);\n        } else if (e[i].length < 12) {\n            console.log(e[i] + \"-\" + house[2]);\n        } else {\n            console.log(e[i] + \"-\" + house[3]);\n            break;\n        }\n    }\n}"
+                description: "Implement a function that takes an array of student names and assigns them to one of four houses (Gryffindor < 6, Hufflepuff < 8, Ravenclaw < 12, Slytherin >= 12) based on name length.",
+                solution: "function SortStudent(e) {\n    const house = [\"Gryffindor\", \"Hufflepuff\", \"Ravenclaw\", \"Slytherin\"];\n\n    for (let i = 0; i < e.length; i++) {\n        if (e[i].length < 6) {\n            console.log(e[i] + \"-\" + house[0]);\n        } else if (e[i].length < 8) {\n            console.log(e[i] + \"-\" + house[1]);\n        } else if (e[i].length < 12) {\n            console.log(e[i] + \"-\" + house[2]);\n        } else {\n            console.log(e[i] + \"-\" + house[3]);\n            break;\n        }\n    }\n}"
             },
             {
                 id: 2,
@@ -269,7 +298,79 @@
             },
             {
                 id: 4,
-                title: "4. FizzBuzz",
+                title: "4. The Password Validator",
+                description: "Create a function that checks if a password is valid: at least 8 characters long, contains both uppercase and lowercase letters, and includes at least one digit.",
+                solution: "function ValidatePassword(password) {\n    const length = password.length >= 8;\n    const UpperCase = /[A-Z]/.test(password);\n    const LowerCase = /[a-z]/.test(password);\n    const Number = /[0-9]/.test(password);\n\n    if (length && UpperCase && LowerCase && Number) {\n        return \"Password is Valid\"\n    } else {\n        return \"Password Invalid\"\n    }\n}"
+            },
+            {
+                id: 5,
+                title: "5. The Sum Selector",
+                description: "Write a function that sums all numbers in an array until it encounters a negative number.",
+                solution: "function Sum(e) {\n    let sum = 0\n    for (let i = 0; i < e.length; i++) {\n        if (e[i] < 0) {\n            break;\n        } else {\n            sum += e[i];\n        }\n    }\n    return sum;\n}"
+            },
+            {
+                id: 6,
+                title: "6. The Vowel Counter",
+                description: "Create a function that counts the number of vowels in a given string. Consider both uppercase and lowercase.",
+                solution: "function Vowels(e) {\n    const vowels = [\"a\", \"A\", \"e\", \"E\", \"i\", \"I\", \"o\", \"O\", \"u\", \"U\"];\n    let count = 0;\n\n    for (let i = 0; i < e.length; i++) {\n        if (vowels.includes(e[i])) {\n            count++;\n        }\n    }\n    return count;\n}"
+            },
+            {
+                id: 7,
+                title: "7. The Local Storage Manager",
+                description: "Implement a function named `saveNoteToLocalStorage` that takes a note object and saves it to the browser's local storage.",
+                solution: "function saveNoteToLocalStorage(e) {\n    localStorage.setItem(\"Note\", JSON.stringify(e))\n}"
+            },
+            {
+                id: 8,
+                title: "8. Async Array Mapping",
+                description: "Write an async function that takes an array of numbers and returns a new array of Promises where each number is multiplied by 2 after a delay of 500ms.",
+                solution: "async function Mapping(e) {\n    const promises = e.map(arr => {\n        return new Promise(resolve =>\n            setTimeout(() => {\n                resolve(arr * 2)\n            }, 500)\n        )\n    })\n    return Promise.all(promises);\n}"
+            },
+            {
+                id: 9,
+                title: "9. The Asynchronous Shopper",
+                description: "Write an async function `placeOrder` that simulates placing an order. The promise should resolve/reject randomly after a random delay.",
+                solution: "async function placeOrder() {\n    const random = Math.random();\n    return new Promise((resolve, reject) => {\n        setTimeout(() => {\n            const success = Math.random() > 0.5;\n            if (success) {\n                resolve(\"Order Placed\")\n            } else {\n                reject(\"Order Not Placed\")\n            }\n        }, random * 10000);\n    })\n}"
+            },
+            {
+                id: 10,
+                title: "10. The Coffee Machine",
+                description: "Write an async function `brewCoffee` that takes the type of coffee and returns a promise. It resolves with a message after a random delay.",
+                solution: "async function brewCoffee(e) {\n    return new Promise((resolve) => {\n        setTimeout(() => {\n            resolve(`${e} is ready`);\n        }, Math.random() * 10000)\n    })\n}"
+            },
+            {
+                id: 11,
+                title: "11. The Array Filterer",
+                description: "Write a function `filterProducts` that takes an array of product objects and a filter criterion, returning only matching products.",
+                solution: "function filterProducts(e, query) {\n    return e.filter(product => product.productName.toLowerCase() === query.toLowerCase())\n}"
+            },
+            {
+                id: 12,
+                title: "12. The Token Manager",
+                description: "Implement `setAuthToken` that takes a token and sets it in localStorage with an expiration time.",
+                solution: "function setAuthToken(token) {\n    const expiryTime = Date.now() + 10000;\n    const data = {\n        token,\n        expiry: expiryTime\n    }\n    localStorage.setItem(\"AuthToken\", JSON.stringify(data));\n    return data\n}"
+            },
+            {
+                id: 13,
+                title: "13. The Shopping Cart Totalizer",
+                description: "Implement `calculateTotal` that takes an array of products (with prices and quantities) and returns the total cost.",
+                solution: "function calculateTotal(arr) {\n    let total = 0;\n    for (let i = 0; i < arr.length; i++) {\n        total += arr[i].price * arr[i].quantity\n    }\n    return total;\n}"
+            },
+            {
+                id: 14,
+                title: "14. The Window Scroller",
+                description: "Implement `smoothScrollToTop` that smoothly scrolls the window to the top.",
+                solution: "function smoothScrollToTop() {\n    window.scrollTo({\n        top: 0,\n        behavior: \"smooth\"\n    });\n}"
+            },
+            {
+                id: 15,
+                title: "15. Even and Unique",
+                description: "Make a function that takes an array and returns a new array with only unique even numbers. Example input: [5,2,4,4,7,8,7], output: [2,4,8]",
+                solution: "function GetEven(e) {\n    return [...new Set(e.filter(el => el % 2 === 0))]\n}"
+            },
+            {
+                id: 16,
+                title: "16. FizzBuzz",
                 description: "Write a program that prints numbers 1 to 100. Multiples of 3 print 'Fizz', multiples of 5 print 'Buzz', multiples of both print 'FizzBuzz'.",
                 solution: "function FizzBuzz() {\n    for (let i = 1; i <= 100; i++) {\n        if (i % 3 === 0 && i % 5 === 0) {\n            console.log(\"FizzBuzz\")\n        } else if (i % 3 === 0) {\n            console.log(\"Fizz\")\n        } else if (i % 5 === 0) {\n            console.log(\"Buzz\")\n        } else {\n            console.log(i)\n        }\n    }\n}"
             }
@@ -305,7 +406,6 @@
             mcqContainer.appendChild(card);
         });
 
-        // Fixed the query selectors in this function
         function checkAnswer(questionId, correctAnswerIndex) {
             const selected = document.querySelector(`input[name="q${questionId}"]:checked`);
             const feedbackEl = document.getElementById(`feedback-${questionId}`);
@@ -356,7 +456,6 @@
             codingContainer.appendChild(card);
         });
 
-        // Fixed the element targeting in this function
         function toggleSolution(problemId) {
             const wrapper = document.getElementById(`solution-wrapper-${problemId}`);
             wrapper.classList.toggle('visible');
