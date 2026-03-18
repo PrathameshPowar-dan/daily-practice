@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Prep Portal</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --success: #16a34a;
+            --error: #dc2626;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* MCQ Styles */
+        .mcq-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .mcq-options {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .mcq-options li {
+            margin-bottom: 0.5rem;
+        }
+
+        .mcq-options label {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .mcq-options label:hover {
+            background: var(--bg-color);
+        }
+
+        .mcq-options input[type="radio"] {
+            margin-right: 1rem;
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        .feedback.correct { color: var(--success); display: block; }
+        .feedback.incorrect { color: var(--error); display: block; }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background 0.2s;
+        }
+
+        button:hover { background-color: var(--primary-hover); }
+
+        /* Coding Problem Styles */
+        .code-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .code-description {
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+        }
+
+        .editor-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .editor-container {
+                flex-direction: row;
+            }
+        }
+
+        .code-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        textarea, pre {
+            width: 100%;
+            height: 250px;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+            resize: vertical;
+        }
+
+        textarea {
+            background: var(--bg-color);
+            color: var(--text-main);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        pre {
+            background: #1e293b;
+            color: #f8fafc;
+            overflow-x: auto;
+            display: none; 
+        }
+
+        .solution-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .solution-wrapper.visible pre {
+            display: block;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Interview Prep Portal</h1>
+            <p>Test your knowledge with MCQs and practice your coding logic.</p>
+        </header>
+
+        <section id="mcq-section">
+            <h2>Conceptual MCQs</h2>
+            <div id="mcq-container">
+                </div>
+        </section>
+
+        <section id="coding-section">
+            <h2>Coding Challenges</h2>
+            <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Type your logic in the left pane, then reveal the solution to compare.</p>
+            <div id="coding-container">
+                </div>
+        </section>
+    </div>
+
+    <script>
+        // --- MCQ Data ---
+        const mcqs = [
+            {
+                id: 1,
+                question: "In JavaScript, what is the output of `typeof null`?",
+                options: ["undefined", "null", "object", "number"],
+                answer: 2 
+            },
+            {
+                id: 2,
+                question: "Which array method creates a new array populated with the results of calling a provided function on every element?",
+                options: [".forEach()", ".map()", ".filter()", ".reduce()"],
+                answer: 1 
+            },
+            {
+                id: 3,
+                question: "What does `Promise.all()` do?",
+                options: [
+                    "Returns a promise that fulfills when any of the input's promises fulfill.",
+                    "Returns a promise that fulfills when all of the input's promises fulfill.",
+                    "Executes promises synchronously, one after another.",
+                    "Rejects immediately if the array is empty."
+                ],
+                answer: 1
+            }
+        ];
+
+        // --- Coding Problems Data ---
+        const codingProblems = [
+            {
+                id: 1,
+                title: "1. The Magical Sorting Hat",
+                description: "Implement a JavaScript function that takes an array of student names and assigns them to one of the four houses (Gryffindor < 6, Hufflepuff < 8, Ravenclaw < 12, Slytherin >= 12) based on the length of their names.",
+                solution: "function SortSstudent(e) {\n    const house = [\"Gryffindor\", \"Hufflepuff\", \"Ravenclaw\", \"Slytherin\"];\n\n    for (let i = 0; i < e.length; i++) {\n        if (e[i].length < 6) {\n            console.log(e[i] + \"-\" + house[0]);\n        } else if (e[i].length < 8) {\n            console.log(e[i] + \"-\" + house[1]);\n        } else if (e[i].length < 12) {\n            console.log(e[i] + \"-\" + house[2]);\n        } else {\n            console.log(e[i] + \"-\" + house[3]);\n            break;\n        }\n    }\n}"
+            },
+            {
+                id: 2,
+                title: "2. The Double Trouble",
+                description: "Write a function that doubles each element in an array. However, if the array contains consecutive duplicate elements, only double one of them.",
+                solution: "function Doubles(e) {\n    const result = []\n    for (let i = 0; i < e.length; i++) {\n        if (e[i] > 0 && e[i] === e[i - 1]) {\n            result.push(e[i]);\n        } else {\n            result.push(e[i] * 2);\n        }\n    }\n    return result;\n}"
+            },
+            {
+                id: 3,
+                title: "3. The Mirror Mirror",
+                description: "Write a function that takes a string and creates a new string that is a mirror image of the original (appends the reversed version to itself).",
+                solution: "function MirrorMirror(e) {\n    const reverse = e.split(\"\").reverse().join(\"\");\n    return e + reverse;\n}"
+            },
+            {
+                id: 4,
+                title: "4. FizzBuzz",
+                description: "Write a program that prints numbers 1 to 100. Multiples of 3 print 'Fizz', multiples of 5 print 'Buzz', multiples of both print 'FizzBuzz'.",
+                solution: "function FizzBuzz() {\n    for (let i = 1; i <= 100; i++) {\n        if (i % 3 === 0 && i % 5 === 0) {\n            console.log(\"FizzBuzz\")\n        } else if (i % 3 === 0) {\n            console.log(\"Fizz\")\n        } else if (i % 5 === 0) {\n            console.log(\"Buzz\")\n        } else {\n            console.log(i)\n        }\n    }\n}"
+            }
+        ];
+
+        // --- Render MCQs ---
+        const mcqContainer = document.getElementById('mcq-container');
+        
+        mcqs.forEach((q, index) => {
+            const card = document.createElement('div');
+            card.className = 'mcq-card';
+            
+            let optionsHTML = '';
+            q.options.forEach((opt, optIdx) => {
+                optionsHTML += `
+                    <li>
+                        <label>
+                            <input type="radio" name="q${q.id}" value="${optIdx}">
+                            ${opt}
+                        </label>
+                    </li>
+                `;
+            });
+
+            card.innerHTML = `
+                <h3>Q${index + 1}: ${q.question}</h3>
+                <ul class="mcq-options">
+                    ${optionsHTML}
+                </ul>
+                <button onclick="checkAnswer(${q.id}, ${q.answer})">Check Answer</button>
+                <div id="feedback-${q.id}" class="feedback"></div>
+            `;
+            mcqContainer.appendChild(card);
+        });
+
+        // Fixed the query selectors in this function
+        function checkAnswer(questionId, correctAnswerIndex) {
+            const selected = document.querySelector(`input[name="q${questionId}"]:checked`);
+            const feedbackEl = document.getElementById(`feedback-${questionId}`);
+            
+            if (!selected) {
+                feedbackEl.textContent = "Please select an option first.";
+                feedbackEl.className = "feedback incorrect";
+                return;
+            }
+
+            if (parseInt(selected.value) === correctAnswerIndex) {
+                feedbackEl.textContent = "Correct! Well done.";
+                feedbackEl.className = "feedback correct";
+            } else {
+                feedbackEl.textContent = "Incorrect. Try again!";
+                feedbackEl.className = "feedback incorrect";
+            }
+        }
+
+        // --- Render Coding Problems ---
+        const codingContainer = document.getElementById('coding-container');
+
+        codingProblems.forEach((prob) => {
+            const card = document.createElement('div');
+            card.className = 'code-card';
+            
+            card.innerHTML = `
+                <h3>${prob.title}</h3>
+                <p class="code-description">${prob.description}</p>
+                
+                <div class="editor-container">
+                    <div class="code-area">
+                        <div class="top-bar">
+                            <strong>Your Code:</strong>
+                        </div>
+                        <textarea placeholder="Write your JavaScript/TypeScript code here..."></textarea>
+                    </div>
+                    
+                    <div class="solution-wrapper" id="solution-wrapper-${prob.id}">
+                        <div class="top-bar">
+                            <strong>Solution:</strong>
+                            <button onclick="toggleSolution(${prob.id})" style="margin-top: 0; padding: 0.2rem 0.8rem;">Compare Solution</button>
+                        </div>
+                        <pre><code>${prob.solution.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
+                    </div>
+                </div>
+            `;
+            codingContainer.appendChild(card);
+        });
+
+        // Fixed the element targeting in this function
+        function toggleSolution(problemId) {
+            const wrapper = document.getElementById(`solution-wrapper-${problemId}`);
+            wrapper.classList.toggle('visible');
+            
+            const btn = wrapper.querySelector('button');
+            if (wrapper.classList.contains('visible')) {
+                btn.textContent = 'Hide Solution';
+            } else {
+                btn.textContent = 'Compare Solution';
+            }
+        }
+    </script>
+</body>
+</html>
