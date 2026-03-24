@@ -273,6 +273,34 @@
                 question: "In JavaScript, all objects are truthy. What does `if ({})` evaluate to?",
                 options: ["false", "true", "undefined", "SyntaxError"],
                 answer: 1
+            },
+            {
+                id: 8,
+                question: "In React, what happens if you pass an empty array `[]` as the second argument to the `useEffect` hook?",
+                options: [
+                    "The effect runs after every single render.",
+                    "The effect runs only once after the initial render.",
+                    "The effect never runs.",
+                    "The component unmounts immediately."
+                ],
+                answer: 1 
+            },
+            {
+                id: 9,
+                question: "In an Express.js application, what is the primary purpose of calling `next()` inside a middleware function?",
+                options: [
+                    "To send the final HTTP response to the client.",
+                    "To throw a synchronous error and halt execution.",
+                    "To pass control to the next middleware function in the stack.",
+                    "To restart the Node.js server."
+                ],
+                answer: 2 
+            },
+            {
+                id: 10,
+                question: "Which HTTP status code is most appropriate for a successful POST request that creates a new resource (like a new user in a database)?",
+                options: ["200 OK", "201 Created", "204 No Content", "400 Bad Request"],
+                answer: 1
             }
         ];
 
@@ -373,6 +401,24 @@
                 title: "16. FizzBuzz",
                 description: "Write a program that prints numbers 1 to 100. Multiples of 3 print 'Fizz', multiples of 5 print 'Buzz', multiples of both print 'FizzBuzz'.",
                 solution: "function FizzBuzz() {\n    for (let i = 1; i <= 100; i++) {\n        if (i % 3 === 0 && i % 5 === 0) {\n            console.log(\"FizzBuzz\")\n        } else if (i % 3 === 0) {\n            console.log(\"Fizz\")\n        } else if (i % 5 === 0) {\n            console.log(\"Buzz\")\n        } else {\n            console.log(i)\n        }\n    }\n}"
+            },
+            {
+                id: 17,
+                title: "17. The Rate Limiter (Closure)",
+                description: "Write a function `createRateLimiter(limit, timeWindow)` that returns a new function. The returned function should return `true` if it has been called fewer than `limit` times within the `timeWindow` (in milliseconds), and `false` otherwise. Useful for basic API endpoint protection.",
+                solution: "function createRateLimiter(limit, timeWindow) {\n    let calls = [];\n    return function() {\n        const now = Date.now();\n        // Remove timestamps older than the time window\n        calls = calls.filter(time => now - time < timeWindow);\n        \n        if (calls.length < limit) {\n            calls.push(now);\n            return true;\n        }\n        return false;\n    };\n}"
+            },
+            {
+                id: 18,
+                title: "18. The Deep Object Clone",
+                description: "Write a function `deepClone(obj)` that creates a deep copy of a nested JavaScript object, ensuring that nested objects are not passed by reference. (Assume no circular dependencies or functions for this basic version).",
+                solution: "function deepClone(obj) {\n    if (obj === null || typeof obj !== 'object') {\n        return obj;\n    }\n    \n    if (Array.isArray(obj)) {\n        return obj.map(item => deepClone(item));\n    }\n    \n    const clonedObj = {};\n    for (let key in obj) {\n        if (obj.hasOwnProperty(key)) {\n            clonedObj[key] = deepClone(obj[key]);\n        }\n    }\n    return clonedObj;\n    \n    // Alternative quick (but limited) solution:\n    // return JSON.parse(JSON.stringify(obj));\n}"
+            },
+            {
+                id: 19,
+                title: "19. The Debouncer",
+                description: "Implement a `debounce(func, delay)` function. It should return a new function that, when called, delays the execution of `func` until after `delay` milliseconds have elapsed since the last time the returned function was called. Essential for search bars!",
+                solution: "function debounce(func, delay) {\n    let timeoutId;\n    return function(...args) {\n        clearTimeout(timeoutId);\n        timeoutId = setTimeout(() => {\n            func.apply(this, args);\n        }, delay);\n    };\n}"
             }
         ];
 
